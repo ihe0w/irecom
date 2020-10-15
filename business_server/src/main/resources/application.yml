@@ -1,0 +1,17 @@
+
+
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/recommender?serverTimezone=GMT%2B8&characterEncoding=utf-8
+    username: root
+    password: mysql314159
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    mongodb:
+      port: 27017
+      database: recommender
+      host: localhost
+
+logging:
+  config: D:\projects\IdeaProjects\irecom\business_server\src\main\resources\config\logback-spring.xml
