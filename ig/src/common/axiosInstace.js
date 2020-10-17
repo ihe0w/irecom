@@ -10,6 +10,10 @@ const instance = axios.create({
     baseURL: baseDomain
 });
 
+// 返回status code常量
+const SUCCESS=200;
+const NEED_LOGIN=401;
+
 // 添加请求拦截器
 // instance.interceptors.request.use(function(config){
 //         //在发送请求之前做某事，比如加一个loading
@@ -24,10 +28,11 @@ const instance = axios.create({
 //         return Promise.reject(error);
 // });
 
-// 添加一个响应拦截器
+
+//添加一个响应拦截器
 instance.interceptors.response.use(function (response) {
     // 1.成功
-    if (response.data.success) {
+    if (response.data.status===SUCCESS) {
         return Promise.resolve(response.data);
     } else {
         notification['error']({
@@ -67,7 +72,7 @@ instance.interceptors.response.use(function (response) {
             message: error.response.data.message || '系统异常'
         })
         // 登录授权
-        if (error.response.status === 401) {
+        if (error.response.status === NEED_LOGIN) {
             setTimeout(() => {
                 window.location.href = '/login'
             }, 2000)

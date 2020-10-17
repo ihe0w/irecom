@@ -3,9 +3,7 @@ package com.example.business_server.service.impl;
 import com.example.business_server.model.recom.Recommendation;
 import com.example.business_server.service.RecommendService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -25,7 +23,6 @@ public class RecommendServiceImpl implements RecommendService {
 
     @Override
     public List<Recommendation> getCollaborativeFilteringRecommendations(Long userId, Integer number) {
-        log.debug("enter service");
         return findUserCFRecs(userId, number);
     }
 

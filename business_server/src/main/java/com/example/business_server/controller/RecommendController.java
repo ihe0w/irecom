@@ -1,7 +1,6 @@
 package com.example.business_server.controller;
 
 import com.example.business_server.model.domain.Post;
-import com.example.business_server.model.domain.User;
 import com.example.business_server.model.dto.ResponseResult;
 import com.example.business_server.model.recom.Recommendation;
 import com.example.business_server.service.PostService;
@@ -9,7 +8,6 @@ import com.example.business_server.service.RecommendService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +38,7 @@ public class RecommendController {
     )
     @GetMapping("/explore")
     @ResponseBody
-    public ResponseResult<List<Post>> recommendPosts(@RequestParam("userId")Long userId, @RequestParam("num")Integer num){
+    public ResponseResult<List<Post>> recommendPosts(@RequestParam("userId") Long userId, @RequestParam("num")Integer num){
         log.debug("enter controller");
         List<Recommendation> recommendations=recommendService.getCollaborativeFilteringRecommendations(userId, num);
 

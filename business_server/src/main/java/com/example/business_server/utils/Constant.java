@@ -12,6 +12,17 @@ public class Constant {
 
     //*************** for elastic search***********************//
 
-    //*************** for ***********************//
+    //*************** for concurrent***********************//
+    public static final Integer INIT_THREAD_NUM=10;
+
+    public static final Integer MAX_THREAD_NUM=20;
+
+    public static final Integer QUEUE_CAPACITY=500;;
+
+    public static final Integer ALIVED_SECONDS=60;
+
+    ;
+
+
 
 }

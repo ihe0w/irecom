@@ -43,9 +43,9 @@ public class LogAspect {
         log.info("Request Args   : {}", json);
     }
 
-    @AfterReturning(returning = "result", pointcut = "servicePointCut() AND dao()")
+    @AfterReturning(returning = "result", pointcut = "servicePointCut() AND dao() AND controller()")
     public void logResultState(Object result) {
-        log.info("----------------after service or dao-----------------");
+        log.info("----------------after service or dao or controller-----------------");
         log.info("return result {}",result.toString());
     }
 

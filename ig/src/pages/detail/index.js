@@ -36,7 +36,8 @@ class Detail extends React.Component {
             showAttentionList: false,
             showPostTopic: false
         }
-        this.initFriendList()
+        // this.initFriendList()
+        console.log("initTopicList")
         this.initTopicList()
     }
 
@@ -55,9 +56,20 @@ class Detail extends React.Component {
     }
 
     async initTopicList () {
+        console.log("enter topic list");
         // 获取用户帖子列表
-        let topicResponse = await API.frientTopicList()
-        this.props.addTopicList(topicResponse.data)
+        try{
+            var topicResponse = await API.frientTopicList({params:{userId:1,num:3}});
+            console.log("welcome");
+            console.log("response "+topicResponse);
+            console.log(topicResponse);
+            console.log("response data "+topicResponse.data);
+            this.props.addTopicList(topicResponse.data)
+        } catch (e) {
+            console.log("error react axios "+e.toString())
+            console.log(e)
+        }
+
     }
 
     setFollowStatus = async (index, status) => {

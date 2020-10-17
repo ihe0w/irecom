@@ -2,16 +2,17 @@ package com.example.business_server.dao;
 
 import com.example.business_server.model.domain.Post;
 import org.apache.ibatis.annotations.*;
+import org.springframework.scheduling.annotation.Async;
 
 @Mapper
 public interface PostMapper {
     @Results(id = "postResultMap",value = {
             @Result(property = "postId", column = "post_id",id = true),
             @Result(property = "postUrl", column = "post_url"),
-            @Result(property = "imgUrl", column = "img_url"),
             @Result(property = "createdTime", column = "created_time"),
             @Result(property = "updatedTime", column = "updated_time")
     })
+
     @Select("SELECT * FROM post WHERE post_id = #{postId}")
     Post findPostById(@Param("postId") Long postId);
 

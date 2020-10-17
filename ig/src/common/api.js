@@ -45,10 +45,15 @@ exports.topicLike = (data) => {
     return instance.put('/topic/like', data);
 }
 
-// 获取好友帖子列表
+// // 获取好友帖子列表
+// exports.frientTopicList = (data) => {
+//     return instance.get('/topic/friend/list', data);
+// }
+// 获取推荐帖子
 exports.frientTopicList = (data) => {
-    return instance.get('/topic/friend/list', data);
+    return instance.get('/recommend/explore', data);
 }
+
 
 // 添加评论
 exports.addDiscuss = (data) => {

@@ -1,15 +1,15 @@
 package com.example.business_server.model.dto;
 
 public class ResponseResult<T> {
-    private long status;
-    private String msg;
+    private Integer status;
+    private String message;
     private T data;
 
     protected ResponseResult() {
     }
-    protected ResponseResult(long status, String msg, T data){
+    protected ResponseResult(Integer status, String message, T data){
         this.status=status;
-        this.msg=msg;
+        this.message = message;
         this.data=data;
     }
     public static <T>ResponseResult<T> success(T data){
@@ -39,20 +39,20 @@ public class ResponseResult<T> {
         return new ResponseResult<>(ResultCode.FAILED.getCode(), message, null);
     }
 
-    public long getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(long status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public T getData() {

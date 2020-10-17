@@ -35,7 +35,7 @@ class DynamicList extends React.Component {
         super(props);
         this.state = {}
     }
-    
+
     render() {
         return (
             <div className={Style['dynamic-list']}>
@@ -43,27 +43,17 @@ class DynamicList extends React.Component {
                     this.props.dynamicList.map((item,index) => {
                         return (
                         <article className="article" key={index}>
-                            <header className="header">
-                                <Avatar userInfo={item.userInfo}/>
-                            </header>
+                            {/*<header className="header">*/}
+                            {/*    <Avatar userInfo={item.userInfo}/>*/}
+                            {/*</header>*/}
                             
+                            {/*<div className="container">*/}
+                            {/*    <Carousel imageList={item.topic.imgUrls}></Carousel>*/}
+                            {/*</div>*/}
                             <div className="container">
-                                <Carousel imageList={item.topic.topicImgList}></Carousel>
+                                <Carousel imageList={item.imgUrls}></Carousel>
                             </div>
 
-                            {/* 评论区 */}
-                            <div className="comments-content">
-                                <Comments 
-                                    topicLikeFn={this.props.topicLikeFn}
-                                    addComments={this.props.addComments}
-                                    topicIndex={index}
-                                    createdAt={item.topic.created_at}
-                                    discuss={item.discuss} 
-                                    topicId={item.topic.topicId} 
-                                    topicLike={item.topic.topicLike}
-                                    dotCounts={item.topic.topicLikeCounts}>
-                                </Comments>
-                            </div>
                         </article>
                         )
                     })
@@ -71,7 +61,9 @@ class DynamicList extends React.Component {
             </div>
         )
     }
+
 }
+
 
 const mapStateToProps = state => ({
     userInfo: state.userInfo
@@ -80,3 +72,16 @@ const mapStateToProps = state => ({
 export default connect(
     mapStateToProps
 )(DynamicList)
+
+//                             <div className="comments-content">
+//                                 <Comments
+//                                     topicLikeFn={this.props.topicLikeFn}
+//                                     addComments={this.props.addComments}
+//                                     topicIndex={index}
+//                                     createdAt={item.topic.createdTime}
+//                                     discuss={item.discuss}
+//                                     topicId={item.topic.topicId}
+//                                     topicLike={item.topic.topicLike}
+//                                     dotCounts={item.topic.topicLikeCounts}>
+//                                 </Comments>
+//                             </div>
