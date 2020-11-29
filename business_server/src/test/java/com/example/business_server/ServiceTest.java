@@ -1,7 +1,9 @@
 package com.example.business_server;
 
 import com.example.business_server.model.recom.Recommendation;
+import com.example.business_server.service.MailService;
 import com.example.business_server.service.RecommendService;
+import com.example.business_server.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
@@ -17,11 +19,26 @@ import java.util.List;
 public class ServiceTest extends BusinessServerApplicationTests{
     @Autowired
     RecommendService recommendService;
+    @Autowired
+    MailService mailService;
+    @Autowired
+    UserService userService;
 
     @Test
     public void testMDb(){
         log.info("is there log?");
         List<Recommendation> results=recommendService.getCollaborativeFilteringRecommendations((long) 123,2);
         assertThat(results,nullValue());
+    }
+
+    @Test
+    public void testSendSimpleEmail(){
+        mailService.sendSimpleMail("1904618021@qq.com","send email test","just test");
+    }
+    @Test
+    public void testRegister(){
+        String account="1904618021@qq.com";
+        String password="123456";
+        userService.register(account,password);
     }
 }

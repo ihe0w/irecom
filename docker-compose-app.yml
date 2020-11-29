@@ -1,0 +1,38 @@
+version: "3.8"
+services:
+  bs_container:
+    image: bs_image
+    container_name: bs_container
+    ports:
+    - 8080:8080
+    external_links:
+      - db:mysql
+  ig:
+    image: ig_image
+    container_name: ig_container
+    ports:
+    - 7000:7000
+
+#  db:
+#    image: mysql
+#    restart: always
+#    environment:
+#      MYSQL_ROOT_PASSWORD: mysql314159
+#    ports:
+#    - 3306:3306
+#    volumes:
+#      - /usr/local/docker/mysql/data:/var/lib/mysql
+#      - /usr/local/docker/mysql/config:/etc/mysql/conf.d
+#  redis:
+#    image: redis
+#    restart: always
+#    container_name: iredis
+#    volumes:
+#    - ./redis/data/:/data/
+#  mongo:
+#    image: mongo
+#    restart: always
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD:
+

@@ -2,6 +2,8 @@ package com.example.business_server.dao;
 
 import com.example.business_server.model.domain.Post;
 import org.apache.ibatis.annotations.*;
+import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.scheduling.annotation.Async;
 
 @Mapper

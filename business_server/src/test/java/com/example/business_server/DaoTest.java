@@ -1,7 +1,9 @@
 package com.example.business_server;
 
 import com.example.business_server.dao.PostMapper;
+import com.example.business_server.dao.UserMapper;
 import com.example.business_server.model.domain.Post;
+import com.example.business_server.model.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ public class DaoTest extends BusinessServerApplicationTests{
     PostMapper postMapper;
     @Autowired
     RedisTemplate<String, String> redisTemplate;
+    @Autowired
+    UserMapper userMapper;
 
 
     @Test
@@ -88,5 +92,14 @@ public class DaoTest extends BusinessServerApplicationTests{
                 postIds) {
             redisTemplate.opsForList().leftPop(postId);
         }
+    }
+
+    @Test
+    public void testInsUser(){
+        User user=new User();
+        user.setUserName("可口可乐");
+        user.setEmail("177@123.com");
+        user.setPassword("111111");
+        userMapper.insertUser(user);
     }
 }

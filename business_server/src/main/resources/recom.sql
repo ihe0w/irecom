@@ -33,6 +33,26 @@ CREATE TABLE post (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for user
+-- ----------------------------
+DROP TABLE IF EXISTS user;
+CREATE TABLE user (
+                            user_id bigint(20) NOT NULL AUTO_INCREMENT,
+                            user_name varchar(20) NOT NULL,
+                            account varchar(20) NOT NULL,
+                            email varchar(20) DEFAULT NULL,
+                            password varchar(50) NOT NULL,
+                            mobile varchar(20) DEFAULT NULL,
+                            created_time datetime DEFAULT NULL,
+                            updated_time datetime DEFAULT NULL,
+                            PRIMARY KEY (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+-- ----------------------------
+-- Records of post
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for cms_help_category
 -- ----------------------------
 DROP TABLE IF EXISTS `cms_help_category`;

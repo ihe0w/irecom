@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+import java.util.concurrent.locks.ReentrantLock;
+
 @Slf4j
 @Controller
 @RequestMapping("api/user")
@@ -50,6 +53,15 @@ public class UserController {
     @ResponseBody
     public ResponseResult<String> loginIn(@RequestParam String account, @RequestParam String password ){
         return userService.loginIn(account,password);
+    }
+
+    @GetMapping("register")
+    @ResponseBody
+    public ResponseResult<String> register(@RequestParam String account,@RequestParam String password ){
+        if (userService.register(account, password)){
+            return ResponseResult.success();
+        }
+        return ResponseResult.failed("邮箱格式不正确或者账号已存在");
     }
 
 //    @GetMapping('/signOut')

@@ -46,7 +46,9 @@ public class LogAspect {
     @AfterReturning(returning = "result", pointcut = "servicePointCut() AND dao() AND controller()")
     public void logResultState(Object result) {
         log.info("----------------after service or dao or controller-----------------");
-        log.info("return result {}",result.toString());
+        if (result!=null) {
+            log.info("return result {}",result.toString());
+        }
     }
 
     @Before("controller()")

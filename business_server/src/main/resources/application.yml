@@ -23,7 +23,21 @@ spring:
         max-wait: -1
         max-idle: 8
         min-idle: 0
-
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+  mail:
+    host: smtp.163.com
+    username: ihewe001@163.com
+    password: NWHRSYIMQZQQPIIN
+    properties.mail.smtp.port: 994
+    from: ihewe001@163.com
+    properties.mail.smtp.starttls.enable: true
+    properties.mail.smtp.starttls.required: true
+    properties.mail.smtp.ssl.enable: true
+    default-encoding: utf-8
 
 logging:
-  config: D:\projects\IdeaProjects\irecom\business_server\src\main\resources\config\logback-spring.xml
+  config: classpath:config/logback-spring.xml
