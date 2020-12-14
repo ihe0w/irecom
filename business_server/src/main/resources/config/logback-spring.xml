@@ -14,8 +14,9 @@
             <FileNamePattern>${LOG_HOME}/%d{yyyy-MM-dd}(%i).log</FileNamePattern>
             <cleanHistoryOnStart>true</cleanHistoryOnStart>
             <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <MaxFileSize>10MB</MaxFileSize>
+                <MaxFileSize>1MB</MaxFileSize>
             </TimeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>3</maxHistory>
         </rollingPolicy>
         <encoder>
             <pattern>

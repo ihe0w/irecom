@@ -7,6 +7,7 @@ import com.example.business_server.producer.RabbitProducer;
 import com.example.business_server.service.MailService;
 import com.example.business_server.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
@@ -86,7 +87,10 @@ public class UserServiceImpl implements UserService {
 
 
     @RabbitHandler
-    public void sendRegisterSuccessEmail(byte[] userBytes){
+    public void sendRegisterSuccessEmail(Message message){
+        byte[] userBytes=message.getBody();
+        log.info("user bytes "+ Arrays.toString(userBytes));
+
         User user;
         try {
             user = (User) getObjectFromBytes(userBytes);

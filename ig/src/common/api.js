@@ -54,6 +54,11 @@ exports.frientTopicList = (data) => {
     return instance.get('/recommend/explore', data);
 }
 
+// 获取更多推荐帖子
+exports.moreRecommendations = (data)=>{
+    return instance.get('/recommend/explore', data);
+}
+
 
 // 添加评论
 exports.addDiscuss = (data) => {

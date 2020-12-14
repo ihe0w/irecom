@@ -1,16 +1,9 @@
 const defaultValue = [
     {
-        userInfo: {
-            avatar: 'https://s10.mogucdn.com/mlcdn/c45406/180930_634a7ck1ikea6k139lbgbi343ha2c_150x150.jpg',
-            username: '',
-            abstract: false
-        },
-        topic: {
-            topicImgList: [],
-            createdAt: '',
-            topicLikeCounts: 0 // 点赞数
-        },
-        discuss: []
+        postId:0,
+        postUrl:"www.google.com",
+        imgUrls:[],
+
     }
 ]
 
@@ -61,3 +54,18 @@ function addComments (state, {
 
 
 export default topicList
+// const defaultValue = [
+//     {
+//         userInfo: {
+//             avatar: 'https://s10.mogucdn.com/mlcdn/c45406/180930_634a7ck1ikea6k139lbgbi343ha2c_150x150.jpg',
+//             username: '',
+//             abstract: false
+//         },
+//         topic: {
+//             topicImgList: [],
+//             createdAt: '',
+//             topicLikeCounts: 0 // 点赞数
+//         },
+//         discuss: []
+//     }
+// ]

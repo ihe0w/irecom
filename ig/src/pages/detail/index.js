@@ -8,6 +8,7 @@ import Style from './index.scss'
 import API from '@common/api.js'
 import update from 'react-addons-update'; // ES6
 import { connect } from "react-redux";
+import ScrollRefreshList from "./components/scroll-refresh-list";
 
 
 @connect(
@@ -27,7 +28,9 @@ import { connect } from "react-redux";
         };
     }
 )
+
 class Detail extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -35,15 +38,17 @@ class Detail extends React.Component {
             followList: [],
             showAttentionList: false,
             showPostTopic: false
-        }
+        };
         // this.initFriendList()
-        console.log("initTopicList")
-        this.initTopicList()
+        console.log("initTopicList");
+        let p=this.initTopicList();
+        console.log(p);
+
     }
 
 
     async initFriendList() {
-        let response = await API.friendList()
+        let response = await API.friendList();
 
         let followList = response.data.map((item) => {
             item.hasFollow = false
@@ -58,17 +63,12 @@ class Detail extends React.Component {
     async initTopicList () {
         console.log("enter topic list");
         // 获取用户帖子列表
-        try{
-            var topicResponse = await API.frientTopicList({params:{userId:1,num:3}});
-            console.log("welcome");
-            console.log("response "+topicResponse);
-            console.log(topicResponse);
-            console.log("response data "+topicResponse.data);
-            this.props.addTopicList(topicResponse.data)
-        } catch (e) {
-            console.log("error react axios "+e.toString())
-            console.log(e)
-        }
+        let topicResponse = await API.frientTopicList({params:{userId:1,num:3}});
+        console.log("welcome");
+        console.log("response "+topicResponse);
+        console.log(topicResponse);
+        console.log("response data "+topicResponse.data);
+        this.props.addTopicList(topicResponse.data)
 
     }
 
@@ -114,7 +114,8 @@ class Detail extends React.Component {
                         {
                             !this.state.showAttentionList && this.props.topicList.length > 0?
                             <div className={Style['home-detail']}>
-                                <DynamicList/>
+                                {/*<DynamicList/>*/}
+                                <ScrollRefreshList/>
                                 <Recommend togglePostTopic={this.togglePostTopic}  followList={this.state.followList} setFollowStatus={this.setFollowStatus}/>
                             </div>
                             :
@@ -134,3 +135,28 @@ class Detail extends React.Component {
 }
 
 export default Detail
+// let i=0;
+// for (;i<1000000000;i++){
+//     if (i%10000===0){
+//         console.log(i);
+//     }
+// }
+
+// try{
+//     let topicResponse = await API.frientTopicList({params:{userId:1,num:3}});
+//     console.log("welcome");
+//     console.log("response "+topicResponse);
+//     console.log(topicResponse);
+//     console.log("response data "+topicResponse.data);
+//     this.props.addTopicList(topicResponse.data)
+// } catch (e) {
+//     console.log("error react axios "+e.toString());
+//     console.log(e)
+// }
+
+//         this.sleep(500).then(()=>{
+//             console.log("get up now")
+//         })
+//     sleep (time) {
+//         return new Promise((resolve) => setTimeout(resolve, time));
+//     }
