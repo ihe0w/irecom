@@ -1,15 +1,23 @@
 package com.example.business_server.service.impl;
 
+import com.example.business_server.aspect.OpLog;
+import com.example.business_server.aspect.OpType;
 import com.example.business_server.dao.UserMapper;
 import com.example.business_server.model.domain.User;
 import com.example.business_server.model.dto.ResponseResult;
 import com.example.business_server.producer.RabbitProducer;
 import com.example.business_server.service.MailService;
 import com.example.business_server.service.UserService;
+import com.example.business_server.utils.MsgQueueConstant;
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.impl.AMQImpl;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +30,6 @@ import java.util.regex.Pattern;
 
 @Service
 @Slf4j
-@RabbitListener(queues = "emailQueue")
 public class UserServiceImpl implements UserService {
     final
     MailService mailService;
@@ -85,29 +92,45 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
+    @SneakyThrows
+    @RabbitListener(queues = MsgQueueConstant.EMAIL_QUEUE)
     @RabbitHandler
-    public void sendRegisterSuccessEmail(Message message){
-        byte[] userBytes=message.getBody();
-        log.info("user bytes "+ Arrays.toString(userBytes));
-
-        User user;
-        try {
-            user = (User) getObjectFromBytes(userBytes);
-            log.info("user email "+user.getEmail());
-            log.info("in handler "+ mailService);
-            log.info("in handler um"+ userMapper);
-            log.info("in handler rp"+ rabbitProducer);
-            log.info("this "+this);
-            mailService.sendSimpleMail(user.getEmail(),"注册成功","恭喜你——"+user.getUserName()+"成功注册本网站");
-        } catch (IOException e) {
-            log.error("convert bytes to object wrong");
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+    public void sendRegisterSuccessEmail(@Payload User user){
+        log.info("user email "+user.getEmail());
+        log.info("in handler "+ mailService);
+        log.info("in handler um"+ userMapper);
+        log.info("in handler rp"+ rabbitProducer);
+        log.info("this "+this);
+        mailService.sendSimpleMail(user.getEmail(),"注册成功","恭喜你——"+user.getUserName()+"成功注册本网站");
+        log.info("test success");
 
     }
+//    @SneakyThrows
+//    @RabbitListener(queues = MsgQueueConstant.EMAIL_QUEUE)
+//    @RabbitHandler
+//    public void sendRegisterSuccessEmail(Message message, Channel channel){
+//
+//
+////            log.info(str);
+////            byte[] userBytes=message.getBody();
+////            log.info("user bytes "+ Arrays.toString(userBytes));
+////            user = (User) getObjectFromBytes(userBytes);
+//        User user= (User) getObjectFromBytes(message.getBody());
+//        log.info("user email "+user.getEmail());
+//        log.info("in handler "+ mailService);
+//        log.info("in handler um"+ userMapper);
+//        log.info("in handler rp"+ rabbitProducer);
+//        log.info("this "+this);
+////            mailService.sendSimpleMail(user.getEmail(),"注册成功","恭喜你——"+user.getUserName()+"成功注册本网站");
+//        log.info("test success");
+//        try {
+//            channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
+
 
     private Object getObjectFromBytes(byte[] objBytes) throws IOException, ClassNotFoundException {
         if (objBytes == null || objBytes.length == 0) {

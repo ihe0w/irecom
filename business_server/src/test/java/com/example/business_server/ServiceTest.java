@@ -38,7 +38,7 @@ public class ServiceTest extends BusinessServerApplicationTests{
     @Test
     public void testRegister(){
         String account="1904618021@qq.com";
-        String password="123456";
+        String password="772345";
         userService.register(account,password);
     }
 }

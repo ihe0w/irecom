@@ -1,11 +1,15 @@
 package com.example.business_server.producer;
 
 import com.example.business_server.model.domain.User;
+import com.example.business_server.utils.MsgQueueConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.core.MessageProperties;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,28 +17,37 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.UUID;
 
 @Component
 @Slf4j
-public class RabbitProducer {
-    private final AmqpTemplate template;
+public class RabbitProducer implements RabbitTemplate.ConfirmCallback ,RabbitTemplate.ReturnCallback{
 
-    public RabbitProducer(AmqpTemplate template) {
-        this.template = template;
+    private final RabbitTemplate rabbitTemplate;
+
+    public RabbitProducer(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     public void sendRegisterQueue(User user){
-        try {
-            log.info("Rabbit invoked");
-            Message message= MessageBuilder.withBody(getBytesFromObject(user)).setContentType(MessageProperties.CONTENT_TYPE_BYTES).setContentEncoding("UTF-8").setMessageId(UUID.randomUUID()+"").build();;
-            log.info("message bytes "+ Arrays.toString(message.getBody()));
-            this.template.convertAndSend("emailQueue",message);
-        } catch (IOException e) {
-            log.error("convert object to byte array wrong");
-            e.printStackTrace();
-        }
+
+        log.info("Rabbit invoked");
+        rabbitTemplate.setConfirmCallback(this);
+        rabbitTemplate.setReturnCallback(this);
+
+        String uuid= String.valueOf(UUID.randomUUID());
+        CorrelationData correlationData=new CorrelationData(uuid);
+
+        MessageConverter messageConverter=rabbitTemplate.getMessageConverter();
+        MessageProperties properties=new MessageProperties();
+
+        Message message= messageConverter.toMessage(user,properties);
+        log.info("message bytes "+ Arrays.toString(message.getBody()));
+
+        this.rabbitTemplate.send(MsgQueueConstant.EMAIL_QUEUE,message);
+
     }
 
     private byte[] getBytesFromObject(Serializable obj) throws IOException {
@@ -45,5 +58,23 @@ public class RabbitProducer {
         ObjectOutputStream oo=new ObjectOutputStream(bo);
         oo.writeObject(obj);
         return bo.toByteArray();
+    }
+
+    @Override
+    public void confirm(CorrelationData correlationData, boolean ack, String cause) {
+//        String dataId=correlationData.getId();
+//        // todo 12.28 correlationData null, ack true,but not send email to 190
+//        // Exception delivering confirm
+//        if (ack){
+//            log.info("send message"+dataId);
+//        }
+//        else {
+//            log.error("message send error "+dataId+" "+cause);
+//        }
+    }
+
+    @Override
+    public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
+        log.error("publish msg from "+exchange+"to queue "+routingKey+" replyText: "+replyText+" replyCode: "+replyCode);
     }
 }

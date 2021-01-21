@@ -9,13 +9,16 @@ import lombok.SneakyThrows;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -29,27 +32,37 @@ public class PostServiceImpl implements PostService {
         this.redisTemplate = redisTemplate;
     }
 
-    @SneakyThrows
+
     @Override
     public List<Post> findPostsByRecommendations(List<Recommendation> recommendations) {
         List<Post> posts=new ArrayList<>();
 
         for (Recommendation recommendation :
                 recommendations) {
-//            Post post=postMapper.findPostById(recommendation.getItemId());
-////
-////            List<String> urls=findImgUrlsByItemId(recommendation.getItemId());
-////            post.setImgUrls(urls);
-            CompletableFuture<Post> getPost=this.findPostById(recommendation.getItemId());
-            CompletableFuture<List<String>> getUrls=this.findImgUrlsByItemId(recommendation.getItemId());
-            CompletableFuture.allOf(getPost,getUrls).join();
-            Post post=getPost.get();
-            post.setImgUrls(getUrls.get());
-
-            posts.add(post);
+            posts.add(getPostById(recommendation.getItemId()));
         }
 
         return posts;
+    }
+
+    /**
+     * 根据id获取post
+     * */
+    @Cacheable(value = "recommendationCache" , key = "#id")
+    public Post getPostById(long id){
+        CompletableFuture<Post> getPost=this.findPostById(id);
+        CompletableFuture<List<String>> getUrls=this.findImgUrlsByItemId(id);
+        CompletableFuture.allOf(getPost,getUrls).join();
+        Post post= null;
+        try {
+            post = getPost.get();
+            post.setImgUrls(getUrls.get());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return post;
     }
 
     @Async

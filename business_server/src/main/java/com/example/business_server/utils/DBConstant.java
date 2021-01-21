@@ -1,6 +1,6 @@
 package com.example.business_server.utils;
 
-public class Constant {
+public class DBConstant {
     //*************** for mongodb *****************//
     public static final String MONGODB_DATABASE="recom";
 

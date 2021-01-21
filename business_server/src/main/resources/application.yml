@@ -34,6 +34,10 @@ spring:
           enabled: true
           max-attempts: 3
           initial-interval: 2000
+        acknowledge-mode: auto
+    publisher-returns: true
+    publisher-confirm-type: correlated
+
   mail:
     host: smtp.163.com
     username: ihewe001@163.com
@@ -47,3 +51,12 @@ spring:
 
 logging:
   config: classpath:config/logback-spring.xml
+
+# 配置缓存
+cache:
+  default:
+    expire-time: 200
+  user:
+    expire-time: 180
+    name: test
+

@@ -26,9 +26,17 @@
         <scala.version>2.11.8</scala.version>
         <jblas.version>1.2.1</jblas.version>
         <mongo-java-driver.version>3.2.2</mongo-java-driver.version>
+        <spring.cloud.alibaba.version>2.1.0.RELEASE</spring.cloud.alibaba.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+            <version>${spring.cloud.alibaba.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
         <!--引入共同的日志管理工具-->
         <dependency>
             <groupId>org.slf4j</groupId>

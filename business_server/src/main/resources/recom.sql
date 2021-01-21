@@ -16,11 +16,12 @@ Date: 2019-03-21 15:44:19
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for cms_help
+-- Table structure for post
 -- ----------------------------
 DROP TABLE IF EXISTS post;
 CREATE TABLE post (
                             post_id bigint(20) NOT NULL AUTO_INCREMENT,
+                            owner_id bigint(20) NOT NULL,
                             post_url varchar(100) DEFAULT NULL,
                             img_url varchar(300) DEFAULT NULL,
                             created_time datetime DEFAULT NULL,
@@ -53,23 +54,64 @@ CREATE TABLE user (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for cms_help_category
+-- Table structure for like
 -- ----------------------------
-DROP TABLE IF EXISTS `cms_help_category`;
-CREATE TABLE `cms_help_category` (
-                                     `id` bigint(20) NOT NULL AUTO_INCREMENT,
-                                     `name` varchar(100) DEFAULT NULL,
-                                     `icon` varchar(500) DEFAULT NULL COMMENT '分类图标',
-                                     `help_count` int(11) DEFAULT NULL COMMENT '专题数量',
-                                     `show_status` int(2) DEFAULT NULL,
-                                     `sort` int(11) DEFAULT NULL,
-                                     PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='帮助分类表';
+DROP TABLE IF EXISTS `like`;
+CREATE TABLE `like` (
+                                     `like_id` bigint(20) NOT NULL AUTO_INCREMENT,
+                                     `user_id` bigint(20) NOT NULL,
+                                     `post_id` bigint(20) NOT NULL,
+                                     `created_time` datetime DEFAULT NULL,
+                                     `updated_time` datetime DEFAULT NULL,
+                                     PRIMARY KEY (`like_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='帖子点赞表';
 
 -- ----------------------------
--- Records of cms_help_category
+-- Records of Tag
 -- ----------------------------
 
+DROP TABLE IF EXISTS `tag`;
+CREATE TABLE `tag` (
+                                     `tag_id` bigint(20) NOT NULL AUTO_INCREMENT,
+                                     `desc` varchar(100) DEFAULT NULL,
+                                     `parent_tag_id` bigint(20) NOT NULL,
+                                     `created_time` datetime DEFAULT NULL,
+                                     `updated_time` datetime DEFAULT NULL,
+                                     PRIMARY KEY (`tag_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='标签表';
+
+-- ----------------------------
+-- Records of TaggedPost
+-- ----------------------------
+
+DROP TABLE IF EXISTS `tag_post`;
+CREATE TABLE `tag_post` (
+                                     `tag_post_id` bigint(20) NOT NULL AUTO_INCREMENT,
+                                     `post_id` bigint(20) NOT NULL,
+                                     `tag_id` bigint(20) NOT NULL,
+                                     `created_time` datetime DEFAULT NULL,
+                                     `updated_time` datetime DEFAULT NULL,
+                                     PRIMARY KEY (`tag_post_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='标签帖子表';
+
+-- ----------------------------
+-- Records of Comment
+-- ----------------------------
+
+DROP TABLE IF EXISTS `comment`;
+CREATE TABLE `comment` (
+                                     `comment_id` bigint(20) NOT NULL AUTO_INCREMENT,
+                                     `post_id` bigint(20) NOT NULL DEFAULT -1 COMMENT '评论的post_id，若是回复评论则为-1',
+                                     `reply_comment_id` bigint(20) NOT NULL COMMENT '回复的评论id',
+                                     `content` varchar(500) NOT NULL,
+                                     `created_time` datetime DEFAULT NULL,
+                                     `updated_time` datetime DEFAULT NULL,
+                                     PRIMARY KEY (`comment_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评论表';
+
+-- ----------------------------
+-- a lot of data insert
+-- ----------------------------
 
 INSERT INTO post VALUES (123, 'https://www.instagram.com/p/CGJe5bFA1Uj/', 'https://images.unsplash.com/photo-1593551646156-6051bfeecb83?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60', null, null);
 INSERT INTO post VALUES (235, 'https://www.instagram.com/p/CGJ_neJgJi-/', 'https://images.unsplash.com/photo-1593551646156-6051bfeecb83?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60', null, null);

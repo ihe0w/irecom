@@ -6,7 +6,7 @@ import java.sql.Date;
 public class Comment {
     private Long postId;
     private Long userId;
-    private String commentText;
+    private String content;
     private Float polarity;
     private Date createdTime;
     private Date updatedTime;

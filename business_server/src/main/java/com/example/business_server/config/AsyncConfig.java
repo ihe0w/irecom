@@ -1,6 +1,6 @@
 package com.example.business_server.config;
 
-import com.example.business_server.utils.Constant;
+import com.example.business_server.utils.DBConstant;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -16,10 +16,10 @@ public class AsyncConfig {
     public Executor dbExcutor(){
         ThreadPoolTaskExecutor executor=new ThreadPoolTaskExecutor();
 
-        executor.setCorePoolSize(Constant.INIT_THREAD_NUM);
-        executor.setMaxPoolSize(Constant.MAX_THREAD_NUM);
-        executor.setQueueCapacity(Constant.QUEUE_CAPACITY);
-        executor.setKeepAliveSeconds(Constant.ALIVED_SECONDS);
+        executor.setCorePoolSize(DBConstant.INIT_THREAD_NUM);
+        executor.setMaxPoolSize(DBConstant.MAX_THREAD_NUM);
+        executor.setQueueCapacity(DBConstant.QUEUE_CAPACITY);
+        executor.setKeepAliveSeconds(DBConstant.ALIVED_SECONDS);
         executor.setThreadNamePrefix("db-async");
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardPolicy());
         executor.initialize();
