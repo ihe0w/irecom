@@ -1,15 +1,14 @@
 package com.example.business_server.controller;
 
 import com.example.business_server.model.domain.User;
+import com.example.business_server.model.dto.FollowDTO;
 import com.example.business_server.model.dto.ResponseResult;
+import com.example.business_server.model.dto.ResultCode;
 import com.example.business_server.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.concurrent.locks.AbstractQueuedSynchronizer;
-import java.util.concurrent.locks.ReentrantLock;
 
 @Slf4j
 @Controller
@@ -49,19 +48,31 @@ public class UserController {
 //    @PostMapping('/register')
 
 
-    @GetMapping("loginIn")
+    @PostMapping("/loginIn")
     @ResponseBody
-    public ResponseResult<String> loginIn(@RequestParam String account, @RequestParam String password ){
+    public ResponseResult<User> loginIn(@RequestBody User user){
+        String account=user.getAccount();
+        String password=user.getPassword();
         return userService.loginIn(account,password);
     }
 
-    @GetMapping("register")
+    @PostMapping("/register")
     @ResponseBody
-    public ResponseResult<String> register(@RequestParam String account,@RequestParam String password ){
+    public ResponseResult<String> register(@RequestBody User user){
+        String account=user.getAccount();
+        String password=user.getPassword();
+
         if (userService.register(account, password)){
             return ResponseResult.success();
         }
-        return ResponseResult.failed("邮箱格式不正确或者账号已存在");
+        return ResponseResult.failed(ResultCode.USER_IS_EXIST);
+    }
+
+    @PostMapping("/follow")
+    @ResponseBody
+    @ApiOperation(value = "关注")
+    public ResponseResult follow(@RequestBody FollowDTO followDTO){
+        return userService.follow(followDTO);
     }
 
 //    @GetMapping('/signOut')

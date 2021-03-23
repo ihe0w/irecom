@@ -1,6 +1,6 @@
 package com.example.business_server.config;
 
-import com.example.business_server.utils.DBConstant;
+import com.example.business_server.common.DBConstant;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;

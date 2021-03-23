@@ -3,7 +3,7 @@
 # Author: bolingcavalry
 
 ### 基础镜像，使用alpine操作系统，openjkd使用8u201
-FROM openjdk:8u201-jdk-alpine3.9
+#FROM openjdk:8u201-jdk-alpine3.9
 
 #作者
 MAINTAINER ihewe <ihewe001@gmail.com>

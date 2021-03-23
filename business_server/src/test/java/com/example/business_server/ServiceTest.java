@@ -1,6 +1,6 @@
 package com.example.business_server;
 
-import com.example.business_server.model.recom.Recommendation;
+import com.example.business_server.model.nosql.Recommendation;
 import com.example.business_server.service.MailService;
 import com.example.business_server.service.RecommendService;
 import com.example.business_server.service.UserService;

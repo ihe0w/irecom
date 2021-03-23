@@ -23,6 +23,17 @@ spring:
         max-wait: -1
         max-idle: 8
         min-idle: 0
+
+  session:
+    store-type: redis
+    redis:
+      namespace: irecom:spring:session
+
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+
   rabbitmq:
     host: 127.0.0.1
     port: 5672
@@ -60,3 +71,13 @@ cache:
     expire-time: 180
     name: test
 
+server:
+  servlet:
+    session:
+      timeout: 600
+
+# 项目使用到的参数
+constant:
+  imagePath: file:/D:/res/project/img
+  videoPath: file:/D:/res/project/video
+  resPath: file:/D:/res/project/

@@ -31,10 +31,17 @@ const NEED_LOGIN=401;
 
 //添加一个响应拦截器
 instance.interceptors.response.use(function (response) {
+    console.log("success response ");
+    console.log(response);
     // 1.成功
     if (response.data.status===SUCCESS) {
         return Promise.resolve(response.data);
-    } else {
+    } else if (response.data.status === NEED_LOGIN) {
+            setTimeout(() => {
+                window.location.href = '/login'
+            }, 2000)
+        }
+    else{
         notification['error']({
             message: response.data.message
         })

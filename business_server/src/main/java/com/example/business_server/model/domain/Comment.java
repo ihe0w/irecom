@@ -1,13 +1,15 @@
 package com.example.business_server.model.domain;
 
 
-import java.sql.Date;
+import lombok.Data;
 
+
+import java.sql.Date;
+@Data
 public class Comment {
+    private Long commentId;
     private Long postId;
-    private Long userId;
+    private Long replyCommentId;
+    private Long commentUserId;
     private String content;
-    private Float polarity;
-    private Date createdTime;
-    private Date updatedTime;
 }

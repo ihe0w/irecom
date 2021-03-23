@@ -1,4 +1,4 @@
-package com.example.business_server.utils;
+package com.example.business_server.common;
 
 public class DBConstant {
     //*************** for mongodb *****************//

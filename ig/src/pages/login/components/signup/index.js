@@ -10,9 +10,11 @@ class NormalLoginForm extends React.Component {
     this.handleSubmit.bind(this)
   }
 
-  
+  /*处理输入*/
   handleSubmit (e) {
+    // 阻止submit默认动作执行
     e.preventDefault();
+    // 身份认证
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
@@ -40,9 +42,9 @@ class NormalLoginForm extends React.Component {
         <h1 className="header">
           <span className="instagram"></span>
         </h1>
-        <h2 className="slogan">注册instagram分享精彩视界</h2>
+        <h2 className="slogan">注册iheIns分享精彩视界</h2>
         <Button type="primary" htmlType="submit" className="facebook-login">
-          使用Facebook登陆
+          使用WeChat登陆
         </Button>
         <div className="or-line">
           <span className="line"></span>
@@ -58,6 +60,16 @@ class NormalLoginForm extends React.Component {
                 <label htmlFor="label-phone">邮箱</label>
                 <Input id="label-phone" prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} />
               </div>
+            )}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('verifyCode', {
+              rules: [{ required: true, message: 'Please input your verifyCode!' }],
+            })(
+                <div className={`form-input ${this.state.verifyCodeEmpty && 'active'}`}  onChange={this.onChangeHandler.bind(this, 'verifyCode')}>
+                  <label htmlFor="label-phone">验证码</label>
+                  <Input id="label-phone" prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} />
+                </div>
             )}
           </FormItem>
           <FormItem>

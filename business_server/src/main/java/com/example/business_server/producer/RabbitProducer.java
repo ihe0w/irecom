@@ -1,23 +1,19 @@
 package com.example.business_server.producer;
 
 import com.example.business_server.model.domain.User;
-import com.example.business_server.utils.MsgQueueConstant;
+import com.example.business_server.common.MsgQueueConstant;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.MessageConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.UUID;
 

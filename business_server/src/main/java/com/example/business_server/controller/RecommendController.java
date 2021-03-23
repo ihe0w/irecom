@@ -2,7 +2,7 @@ package com.example.business_server.controller;
 
 import com.example.business_server.model.domain.Post;
 import com.example.business_server.model.dto.ResponseResult;
-import com.example.business_server.model.recom.Recommendation;
+import com.example.business_server.model.nosql.Recommendation;
 import com.example.business_server.service.PostService;
 import com.example.business_server.service.RecommendService;
 import io.swagger.annotations.Api;

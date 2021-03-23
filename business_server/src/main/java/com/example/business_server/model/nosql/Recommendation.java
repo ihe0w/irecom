@@ -1,6 +1,6 @@
-package com.example.business_server.model.recom;
+package com.example.business_server.model.nosql;
 
-import com.example.business_server.utils.DBConstant;
+import com.example.business_server.common.DBConstant;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;

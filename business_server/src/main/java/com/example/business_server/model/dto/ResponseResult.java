@@ -30,6 +30,13 @@ public class ResponseResult<T> {
     public static <T> ResponseResult<T> success() {
         return new ResponseResult<>(ResultCode.SUCCESS.getCode(), null, null);
     }
+    public static <T> ResponseResult<T> success(ResultCode resultCode) {
+        return new ResponseResult<>(resultCode.getCode(), resultCode.getMessage(), null);
+    }
+
+    public static <T> ResponseResult<T> success(ResultCode resultCode,T data) {
+        return new ResponseResult<>(resultCode.getCode(), resultCode.getMessage(), data);
+    }
 
     /**
      * 失败返回结果
@@ -37,6 +44,15 @@ public class ResponseResult<T> {
      */
     public static <T> ResponseResult<T> failed(String message) {
         return new ResponseResult<>(ResultCode.FAILED.getCode(), message, null);
+    }
+
+
+    public static <T> ResponseResult<T> failed(ResultCode resultCode) {
+        return new ResponseResult<>(resultCode.getCode(), resultCode.getMessage(), null);
+    }
+
+    public static <T> ResponseResult<T> failed(ResultCode resultCode,T data) {
+        return new ResponseResult<>(resultCode.getCode(), resultCode.getMessage(), data);
     }
 
     public Integer getStatus() {

@@ -2,12 +2,12 @@ import instance from './axiosInstace.js';
 
 // 注册
 exports.register = (data) => {
-    return instance.post('/login/register', data);
+    return instance.post('/user/register', data);
  };
 
 // 登录
 exports.login = (data) => {
-    return instance.post('/login', data);
+    return instance.post('/user/loginIn', data);
 };
 // 退出登录
 exports.signout = (data) => {

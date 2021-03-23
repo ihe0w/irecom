@@ -15,19 +15,7 @@ Date: 2019-03-21 15:44:19
 
 SET FOREIGN_KEY_CHECKS=0;
 
--- ----------------------------
--- Table structure for post
--- ----------------------------
-DROP TABLE IF EXISTS post;
-CREATE TABLE post (
-                            post_id bigint(20) NOT NULL AUTO_INCREMENT,
-                            owner_id bigint(20) NOT NULL,
-                            post_url varchar(100) DEFAULT NULL,
-                            img_url varchar(300) DEFAULT NULL,
-                            created_time datetime DEFAULT NULL,
-                            updated_time datetime DEFAULT NULL,
-                            PRIMARY KEY (post_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='帖子表';
+
 
 -- ----------------------------
 -- Records of post
@@ -44,27 +32,73 @@ CREATE TABLE user (
                             email varchar(20) DEFAULT NULL,
                             password varchar(50) NOT NULL,
                             mobile varchar(20) DEFAULT NULL,
-                            created_time datetime DEFAULT NULL,
-                            updated_time datetime DEFAULT NULL,
+                            role varchar(10) DEFAULT 'user',
+                            avatar_url varchar(50) NOT NULL ,
+                            created_time datetime DEFAULT NOW(),
+                            updated_time datetime DEFAULT NOW(),
                             PRIMARY KEY (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
 
+alter table user add avatar_url varchar(50) NOT NULL;
+
+SELECT user_id,user_name,avatar_url FROM user WHERE user_id IN (SELECT poster_id FROM follow WHERE follower_id=#{followerId} )
+
+EXPLAIN SELECT user_id,user_name,avatar_url FROM user WHERE user_id IN (SELECT poster_id FROM follow WHERE follower_id=1 )
+
+
+
+
 -- ----------------------------
--- Records of post
+-- add index for user
 -- ----------------------------
+
+
+-- ----------------------------
+-- insert Records of user
+-- ----------------------------
+insert into user(user_name, account, password) VALUES ('lihua','ihe','12345');
+
+
+-- ----------------------------
+-- Table structure for post
+-- ----------------------------
+DROP TABLE IF EXISTS post;
+CREATE TABLE post (
+                      post_id bigint(20) NOT NULL AUTO_INCREMENT,
+                      owner_id bigint(20) NOT NULL,
+                      desc varchar(50) NOT NULL DEFAULT '' COMMENT '上传post的描述',
+                      created_time datetime DEFAULT NOW(),
+                      updated_time datetime DEFAULT NOW(),
+                      PRIMARY KEY (post_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='帖子表';
+
+INSERT INTO post VALUES (123, 'https://www.instagram.com/p/CGJe5bFA1Uj/', 'https://images.unsplash.com/photo-1593551646156-6051bfeecb83?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60', null, null);
+INSERT INTO post VALUES (235, 'https://www.instagram.com/p/CGJ_neJgJi-/', 'https://images.unsplash.com/photo-1593551646156-6051bfeecb83?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60', null, null);
+INSERT INTO post VALUES (456, 'https://www.instagram.com/p/CGIIeuaAexD/', 'https://images.unsplash.com/photo-1602188324312-e1cd6383d2fe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60', null, null);
 
 -- ----------------------------
 -- Table structure for like
 -- ----------------------------
 DROP TABLE IF EXISTS `like`;
 CREATE TABLE `like` (
-                                     `like_id` bigint(20) NOT NULL AUTO_INCREMENT,
                                      `user_id` bigint(20) NOT NULL,
                                      `post_id` bigint(20) NOT NULL,
-                                     `created_time` datetime DEFAULT NULL,
-                                     `updated_time` datetime DEFAULT NULL,
-                                     PRIMARY KEY (`like_id`)
+                                     `created_time` datetime DEFAULT NOW(),
+                                     `updated_time` datetime DEFAULT NOW(),
+                                     PRIMARY KEY (`user_id`,`post_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='帖子点赞表';
+
+-- ----------------------------
+-- Table structure for follow
+-- ----------------------------
+DROP TABLE IF EXISTS `follow`;
+CREATE TABLE `follow` (
+                        `poster_id` bigint(20) NOT NULL COMMENT '被关注的用户id',
+                        `follower_id` bigint(20) NOT NULL COMMENT '关注用户id',
+                        `created_time` datetime DEFAULT NOW(),
+                        `updated_time` datetime DEFAULT NOW(),
+                        PRIMARY KEY (`follower_id`,`poster_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='关注表';
 
 -- ----------------------------
 -- Records of Tag
@@ -75,8 +109,8 @@ CREATE TABLE `tag` (
                                      `tag_id` bigint(20) NOT NULL AUTO_INCREMENT,
                                      `desc` varchar(100) DEFAULT NULL,
                                      `parent_tag_id` bigint(20) NOT NULL,
-                                     `created_time` datetime DEFAULT NULL,
-                                     `updated_time` datetime DEFAULT NULL,
+                                     `created_time` datetime DEFAULT NOW(),
+                                     `updated_time` datetime DEFAULT NOW(),
                                      PRIMARY KEY (`tag_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='标签表';
 
@@ -89,8 +123,8 @@ CREATE TABLE `tag_post` (
                                      `tag_post_id` bigint(20) NOT NULL AUTO_INCREMENT,
                                      `post_id` bigint(20) NOT NULL,
                                      `tag_id` bigint(20) NOT NULL,
-                                     `created_time` datetime DEFAULT NULL,
-                                     `updated_time` datetime DEFAULT NULL,
+                                     `created_time` datetime DEFAULT NOW(),
+                                     `updated_time` datetime DEFAULT NOW(),
                                      PRIMARY KEY (`tag_post_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='标签帖子表';
 
@@ -102,10 +136,11 @@ DROP TABLE IF EXISTS `comment`;
 CREATE TABLE `comment` (
                                      `comment_id` bigint(20) NOT NULL AUTO_INCREMENT,
                                      `post_id` bigint(20) NOT NULL DEFAULT -1 COMMENT '评论的post_id，若是回复评论则为-1',
-                                     `reply_comment_id` bigint(20) NOT NULL COMMENT '回复的评论id',
+                                     `reply_comment_id` bigint(20) NOT NULL DEFAULT -1 COMMENT '回复的评论id,若是回复post则为-1',
+                                     `comment_user_id` bigint(20) NOT NULL COMMENT '评论用户id',
                                      `content` varchar(500) NOT NULL,
-                                     `created_time` datetime DEFAULT NULL,
-                                     `updated_time` datetime DEFAULT NULL,
+                                     `created_time` datetime DEFAULT NOW(),
+                                     `updated_time` datetime DEFAULT NOW(),
                                      PRIMARY KEY (`comment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评论表';
 
@@ -113,9 +148,6 @@ CREATE TABLE `comment` (
 -- a lot of data insert
 -- ----------------------------
 
-INSERT INTO post VALUES (123, 'https://www.instagram.com/p/CGJe5bFA1Uj/', 'https://images.unsplash.com/photo-1593551646156-6051bfeecb83?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60', null, null);
-INSERT INTO post VALUES (235, 'https://www.instagram.com/p/CGJ_neJgJi-/', 'https://images.unsplash.com/photo-1593551646156-6051bfeecb83?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60', null, null);
-INSERT INTO post VALUES (456, 'https://www.instagram.com/p/CGIIeuaAexD/', 'https://images.unsplash.com/photo-1602188324312-e1cd6383d2fe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60', null, null);
 
 
 -- ----------------------------

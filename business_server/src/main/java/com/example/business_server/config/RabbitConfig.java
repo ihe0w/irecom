@@ -1,9 +1,8 @@
 package com.example.business_server.config;
 
-import com.example.business_server.utils.MsgQueueConstant;
+import com.example.business_server.common.MsgQueueConstant;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

@@ -1,6 +1,6 @@
 package com.example.business_server.service;
 
-import com.example.business_server.model.recom.Recommendation;
+import com.example.business_server.model.nosql.Recommendation;
 
 import java.util.List;
 

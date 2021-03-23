@@ -1,9 +1,7 @@
 package com.example.business_server.service.impl;
 
-import com.example.business_server.model.recom.Recommendation;
+import com.example.business_server.model.nosql.Recommendation;
 import com.example.business_server.service.RecommendService;
-import com.google.common.base.Charsets;
-import com.google.common.hash.Hashing;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;

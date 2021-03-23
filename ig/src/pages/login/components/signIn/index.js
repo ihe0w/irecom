@@ -61,7 +61,7 @@ class NormalLoginForm extends React.Component {
         </h1>
         <Form className="sigin-form" onSubmit={this.handleSubmit.bind(this)}>
           <FormItem>
-            {getFieldDecorator('email', {
+            {getFieldDecorator('account', {
               rules: [{ required: true, message: 'Please input your email!' }],
             })(
               <div className={`form-input ${this.state.emailEmpty && 'active'}`}  onChange={this.onChangeHandler.bind(this, 'email')}>
